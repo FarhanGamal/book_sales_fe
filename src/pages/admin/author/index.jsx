@@ -1,32 +1,35 @@
 import { useRef } from "react";
-import genres from "../../utils/constants/genres"
+import authors from "../../../utils/constants/authors"
 
-export default function Genre() {
-  let genreList = [...genres];
-  const genreContainerRef = useRef(null); // salin data array counstants/genres
+export default function Author() {
+  let authorList = [...authors];
+  const authorContainerRef = useRef(null); // salin data array counstants/authors
 
   const handleClick = () => {
-    const newGenre = {
-      name: "thriller",
-      description: "Genre thriller adalah genre film, sastra, atau acara televisi yang bertujuan untuk membuat penonton merasa tegang, cemas, dan takut",
+    const newAuthor = {
+      name: "jhon Doe",
+      imageUrl: "https:loremfaces.net/96/id/5.jpg",
+      bio: "Lorem ipsum dolor, sit amet consectetur adipisicing elit."
     }
 
-    genreList.push(newGenre);
+    authorList.push(newAuthor);
 
-    if (genreContainerRef.current) {
-      const newGenreElement = document.createElement("div");
-      newGenreElement.className = "p-2 lg:w-1/4 md:w-1/2 w-full";
-      newGenreElement.innerHTML = `
-      <h2>${newGenre.name}</h2>
-      <p>${newGenre.description}</p>
+    if (authorContainerRef.current) {
+      const newAuthorElement = document.createElement("div");
+      newAuthorElement.className = "p-2 lg:w-1/4 md:w-1/2 w-full";
+      newAuthorElement.innerHTML = `
+      <img src="${newAuthor.imageUrl}" />
+      <h2>${newAuthor.name}</h2>
+      <p>${newAuthor.bio}</p>
       `;
     
-      genreContainerRef.current.appendChild(newGenreElement);
+      authorContainerRef.current.appendChild(newAuthorElement);
       
     }
-    console.log(genreList);
+    console.log(authorList);
     alert("Data berhasil ditambahkan")
   }
+
 
   return (
     <section className="text-gray-600 body-font">
@@ -36,13 +39,14 @@ export default function Genre() {
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
 
-        <div ref={genreContainerRef} className="flex flex-wrap -m-2">
-          {genreList.map((person) => (
+        <div ref={authorContainerRef} className="flex flex-wrap -m-2">
+          {authorList.map((person) => (
             <div key={person.name} className="p-2 lg:w-1/3 md:w-1/2 w-full">
               <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                <img src={person.imageUrl} className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"/>
                 <div className="flex-grow">
                   <h2 className="text-gray-900 title-font font-medium">{person.name}</h2>
-                  <p className="text-gray-500">{person.description}</p>
+                  <p className="text-gray-500">{person.role}</p>
                 </div>
               </div>
             </div>
