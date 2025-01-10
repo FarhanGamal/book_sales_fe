@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom"
-import { getGenres } from "../../../services/genres"
-import { useEffect, useState } from "react"
+import { getPayment_methods } from "../../../services/payment_methods";
+import { useEffect, useState } from "react";
 
-export default function Genres() {
-  const [genres, setGenres] = useState([]);  
+export default function Payment_methods() {
+  const [payment_methods, setPayment_methods] = useState([]);  
     
     useEffect(() => {  
-      const fetchGenres = async () => {  
-        const data = await getGenres();  
-        setGenres(data);  
+      const fetchPayment_methods = async () => {  
+        const data = await getPayment_methods();  
+        setPayment_methods(data);  
       };  
     
-      fetchGenres();  
+      fetchPayment_methods();  
     }, []);
   return (
     <div
@@ -29,7 +29,12 @@ export default function Genres() {
               <th
                 className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
               >
-                Description
+                Photo
+              </th>
+              <th
+                className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
+              >
+                Bio
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Actions
@@ -38,21 +43,24 @@ export default function Genres() {
           </thead>
           <tbody>
 
-          {genres.length > 0 ?
-          genres.map((genre) => (
-          <tr key={genre.id} className="hover:bg-gray-50">
+          {payment_methods.length > 0 ?
+          payment_methods.map((payment_method) => (
+          <tr key={payment_method.id} className="hover:bg-gray-50">
               <td
                 className="px-4 py-5 pl-9 xl:pl-11"
               >
-                <h5 className="font-medium text-black dark:text-white">{genre.name}</h5>
+                <h5 className="font-medium text-black dark:text-white">{payment_method.name}</h5>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">{genre.description}</p>
+                <p className="text-black dark:text-white">{payment_method.account_number}</p>
+              </td>
+              <td className="px-4 py-5">
+                <p className="text-black dark:text-white">{payment_method.image}</p>
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/genres/create"><i className="fa-solid fa-plus"></i></Link>
-                  <Link to="/admin/genres/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
+                  <Link to=""><i className="fa-solid fa-plus"></i></Link>
+                  <Link to=""><i className="fa-solid fa-pen-to-square"></i></Link>
                   <button>
                     <i className="fa-solid fa-trash"></i>
                   </button>
@@ -61,7 +69,7 @@ export default function Genres() {
             </tr>
             
             )) : (
-              <p>Tidak ada data gemre</p>
+              <p>Tidak ada data payment</p>
             )}
           </tbody>
         </table>

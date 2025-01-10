@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom"
-import { getGenres } from "../../../services/genres"
 import { useEffect, useState } from "react"
+import { getAuthors } from "../../../services/author";
 
-export default function Genres() {
-  const [genres, setGenres] = useState([]);  
+export default function Authors() {
+  const [authors, setAuthors] = useState([]);  
     
     useEffect(() => {  
-      const fetchGenres = async () => {  
-        const data = await getGenres();  
-        setGenres(data);  
+      const fetchAuthors = async () => {  
+        const data = await getAuthors();  
+        setAuthors(data);  
       };  
     
-      fetchGenres();  
+      fetchAuthors();  
     }, []);
   return (
     <div
@@ -29,7 +29,12 @@ export default function Genres() {
               <th
                 className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
               >
-                Description
+                Photo
+              </th>
+              <th
+                className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
+              >
+                Bio
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Actions
@@ -38,21 +43,24 @@ export default function Genres() {
           </thead>
           <tbody>
 
-          {genres.length > 0 ?
-          genres.map((genre) => (
-          <tr key={genre.id} className="hover:bg-gray-50">
+          {authors.length > 0 ?
+          authors.map((author) => (
+          <tr key={author.id} className="hover:bg-gray-50">
               <td
                 className="px-4 py-5 pl-9 xl:pl-11"
               >
-                <h5 className="font-medium text-black dark:text-white">{genre.name}</h5>
+                <h5 className="font-medium text-black dark:text-white">{author.name}</h5>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">{genre.description}</p>
+                <p className="text-black dark:text-white">{author.photo}</p>
+              </td>
+              <td className="px-4 py-5">
+                <p className="text-black dark:text-white">{author.bio}</p>
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/genres/create"><i className="fa-solid fa-plus"></i></Link>
-                  <Link to="/admin/genres/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
+                  <Link to="/admin/authors/create"><i className="fa-solid fa-plus"></i></Link>
+                  <Link to="/admin/authors/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
                   <button>
                     <i className="fa-solid fa-trash"></i>
                   </button>
@@ -61,7 +69,7 @@ export default function Genres() {
             </tr>
             
             )) : (
-              <p>Tidak ada data gemre</p>
+              <p>Tidak ada data author</p>
             )}
           </tbody>
         </table>
