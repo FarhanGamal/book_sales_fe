@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { getPayment_methods } from "../../../services/payment_methods";
+import { deletePayment_methods, getPayment_methods } from "../../../services/payment_methods";
 import { useEffect, useState } from "react";
 
 export default function Payment_methods() {
@@ -13,10 +13,22 @@ export default function Payment_methods() {
     
       fetchPayment_methods();  
     }, []);
+
+    const handleDelete = async (id) => {
+        const confirmdelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?")
+        
+        if (confirmdelete) {
+          await deletePayment_methods(id)
+          setPayment_methods(payment_methods.filter(book => book.id !== id))
+        }
+        
+      }
+    
   return (
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
+      <Link to={"/admin/payment_methods/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
@@ -29,12 +41,12 @@ export default function Payment_methods() {
               <th
                 className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
               >
-                Photo
+                Account number
               </th>
               <th
                 className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white"
               >
-                Bio
+                Image
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Actions
@@ -55,13 +67,13 @@ export default function Payment_methods() {
                 <p className="text-black dark:text-white">{payment_method.account_number}</p>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">{payment_method.image}</p>
+                {/* <p className="text-black dark:text-white">{payment_method.image}</p> */}
+                <img src= {"http://127.0.0.1:8000/storage/payment_methods/" + payment_method.image}/>
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to=""><i className="fa-solid fa-plus"></i></Link>
-                  <Link to=""><i className="fa-solid fa-pen-to-square"></i></Link>
-                  <button>
+                  <Link to="/admin/payment_methods/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
+                  <button onClick={() => handleDelete(payment_method.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { getGenres } from "../../../services/genres"
+import { deleteGenre, getGenres } from "../../../services/genres"
 import { useEffect, useState } from "react"
 
 export default function Genres() {
@@ -13,10 +13,21 @@ export default function Genres() {
     
       fetchGenres();  
     }, []);
+
+    const handleDelete = async (id) => {
+        const confirmdelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?")
+        
+        if (confirmdelete) {
+          await deleteGenre(id)
+          setGenres(genres.filter(book => book.id !== id))
+        }
+        
+      }
   return (
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
+      <Link to={"/admin/genres/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
@@ -51,9 +62,8 @@ export default function Genres() {
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/genres/create"><i className="fa-solid fa-plus"></i></Link>
                   <Link to="/admin/genres/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
-                  <button>
+                  <button onClick={() => handleDelete(genre.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>

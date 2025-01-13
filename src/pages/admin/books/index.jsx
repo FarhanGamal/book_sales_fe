@@ -1,23 +1,67 @@
 import { Link } from "react-router-dom"
-import { getBooks } from "../../../services/books"
+import { deleteBook, getBooks } from "../../../services/books"
 import { useEffect, useState } from "react"
+import { getGenres } from "../../../services/genres";
+import { getAuthors } from "../../../services/author";
 
 export default function Books() {
   const [books, setBooks] = useState([]);  
+  const [genres, setGenres] = useState([]);
+  const [authors, setAuthors] = useState([]);
   
   useEffect(() => {  
     const fetchBooks = async () => {  
       const data = await getBooks();  
       setBooks(data);  
-    };  
+    };
+    
+    const fetchGenres = async () => {  
+      const data = await getGenres();  
+      setGenres(data);  
+    };
+
+    const fetchAuthors = async () => {  
+      const data = await getAuthors();  
+      setAuthors(data);  
+    };
   
     fetchBooks();  
-  }, []);
+    fetchGenres();  
+    fetchAuthors();  
+  }, [])
+
+  // Fungsi untuk mendapatkan nama genre berdasarkan genre_id
+  const getGenreName = (id) => {
+    const genre = genres.find((g) => g.id === id);
+    return genre ? genre.name : "Uknown Genre";
+  }
+  // Fungsi untuk mendapatkan nama penulis berdasarkan genre_id
+  const getAuthorName = (id) => {
+    const author = authors.find((a) => a.id === id);
+    return author ? author.name : "Uknown Author";
+  } // if (author) {                  -> ini versi singkart dari kode if = return author ? author.name : "Uknown Author";
+    //   return author.name;
+    // } else {
+    //   return "Unknown Author"
+    // }
+  
+  const handleDelete = async (id) => {
+    const confirmdelete = window.confirm("Apakah Anda yakin ingin menghapus data ini?")
+    
+    if (confirmdelete) {
+      await deleteBook(id)
+      setBooks(books.filter(book => book.id !== id))
+    }
+    
+  }
+
+
+
   return (
     <div
       className="rounded-sm shadow-default dark:bg-boxdark sm:px-7.5 xl:pb-1"
     >
-      
+      <Link to={"/admin/books/create"} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tambah data</Link>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="border-b bg-gray-50 text-white">
@@ -76,22 +120,21 @@ export default function Books() {
               </td>
               <td className="px-4 py-5">
                 {/* <p className="text-black dark:text-white">{book.cover_photo}</p> */}
-                <img src= "https://comicvine.gamespot.com/a/uploads/original/11160/111605805/8543076-luffy_gear_5_by_xavierjvg_df4256z-fullview.jpg"/>
+                <img src= {"http://127.0.0.1:8000/storage/books/" + book.cover_photo}/>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">{book.genre_id}</p>
+                <p className="text-black dark:text-white">{getGenreName(book.genre_id)}</p>
               </td>
               <td className="px-4 py-5">
-                <p className="text-black dark:text-white">{book.author_id}</p>
+                <p className="text-black dark:text-white">{getAuthorName(book.author_id)}</p>
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/books/create"><i className="fa-solid fa-plus"></i></Link>
                   <Link to="/admin/books/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
-                  <button>
+                  <button onClick={() => handleDelete(book.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
-                </div>
+                </div>  
               </td>
             </tr>
             )) : (

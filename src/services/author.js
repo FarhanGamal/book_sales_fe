@@ -4,3 +4,22 @@ export const getAuthors = async () => {
   const { data } = await API.get('/authors')    // ini untuk mengambil data saja
   return data.data
 }
+
+export const createAuthor = async (data) => {
+  try {
+  const response = await API.post('/authors', data) // endpoint
+  return response.data
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
+export const deleteAuthor = async (id) => {
+  try {
+    await API.delete(`/authors/${id}`)
+    } catch (err) {
+      console.log(err)
+      throw err
+    }
+}
