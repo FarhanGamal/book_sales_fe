@@ -51,6 +51,7 @@ export default function Books() {
     if (confirmdelete) {
       await deleteBook(id)
       setBooks(books.filter(book => book.id !== id))
+      alert("Data berhasil di hapus")
     }
     
   }
@@ -120,7 +121,7 @@ export default function Books() {
               </td>
               <td className="px-4 py-5">
                 {/* <p className="text-black dark:text-white">{book.cover_photo}</p> */}
-                <img src= {"http://127.0.0.1:8000/storage/books/" + book.cover_photo}/>
+                <img src= {`http://127.0.0.1:8000/storage/books/${book.cover_photo}`}/>
               </td>
               <td className="px-4 py-5">
                 <p className="text-black dark:text-white">{getGenreName(book.genre_id)}</p>
@@ -130,7 +131,8 @@ export default function Books() {
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/books/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
+
+                  <Link to={`/admin/books/edit/${book.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                   <button onClick={() => handleDelete(book.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>

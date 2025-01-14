@@ -15,6 +15,17 @@ export const createAuthor = async (data) => {
   }
 }
 
+export const updateAuthor = async (id, data) => {
+  try {
+    const response = await API.post(`/authors/${id}`, data)      // endpoint
+    return response.data
+} catch (err) {
+    console.log(err)
+    throw err
+}
+}
+
+
 export const deleteAuthor = async (id) => {
   try {
     await API.delete(`/authors/${id}`)

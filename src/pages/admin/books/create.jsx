@@ -138,7 +138,7 @@ export default function BookCreate() {
                 <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50" role="alert">
                   <span className="font-medium">{errors.price[0]}</span>
                 </div>
-              )}
+                )}
                 <input
                   name="price"
                   value={bookData.price}
@@ -159,7 +159,7 @@ export default function BookCreate() {
                 <div className="p-2 my-2 text-red-800 rounded-lg bg-red-50" role="alert">
                   <span className="font-medium">{errors.stock[0]}</span>
                 </div>
-              )}
+                )}
                 <input
                   name="stock"
                   value={bookData.stock}

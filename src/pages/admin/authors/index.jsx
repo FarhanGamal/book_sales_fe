@@ -72,7 +72,7 @@ export default function Authors() {
               </td>
               <td className="px-4 py-5">
                 <div className="flex items-center space-x-3.5">
-                  <Link to="/admin/authors/edit"><i className="fa-solid fa-pen-to-square"></i></Link>
+                  <Link to={`/admin/authors/edit/${author.id}`}><i className="fa-solid fa-pen-to-square"></i></Link>
                   <button onClick={() => handleDelete(author.id)}>
                     <i className="fa-solid fa-trash"></i>
                   </button>
