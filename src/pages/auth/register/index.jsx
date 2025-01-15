@@ -1,6 +1,51 @@
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { register } from "../../../services/auth"
 
 export default function Register() {
+  
+  const [inputData, setInput] = useState({
+    name: "",
+    email: "",
+    password: "",
+  })
+
+  const navigate = useNavigate()
+
+  // handele email, pasword dan submit
+  const handleInput = (e) => {
+    const { name, value } = e.target 
+    setInput({...inputData, [name]: value})
+   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const formDataToSend = new FormData()
+
+    formDataToSend.append('name', inputData.name)
+    formDataToSend.append('email', inputData.email)
+    formDataToSend.append('password', inputData.password)
+
+    try {
+          await register(inputData)
+          navigate('/')
+        }
+        catch (err) {
+          console.log(err)
+        }
+    }
+    
+    const accessToken = localStorage.getItem('accessToken')
+    
+     useEffect(() => {
+        if (accessToken) {
+          return navigate('/')
+        }
+      }, [accessToken, navigate])
+    
+
+    // console.log(inputData)
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -10,18 +55,18 @@ export default function Register() {
                   <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                       Create an account
                   </h1>
-                  <form className="space-y-4 md:space-y-6" action="#">
+                  <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
                       <div>
-                          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                          <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
+                          <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                          <input value={inputData.name} onChange={handleInput} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name" required="" />
+                      </div>
+                      <div>
+                          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                          <input value={inputData.email} onChange={handleInput} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
                       </div>
                       <div>
                           <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                          <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
-                      </div>
-                      <div>
-                          <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                          <input type="confirm-password" name="confirm-password" id="confirm-password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
+                          <input value={inputData.password} onChange={handleInput} type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
                       </div>
                       <div className="flex items-start">
                           <div className="flex items-center h-5">
