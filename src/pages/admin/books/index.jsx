@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { deleteBook, getBooks } from "../../../services/books"
+import { currencyFormat, deleteBook, getBooks } from "../../../services/books"
 import { useEffect, useState } from "react"
 import { getGenres } from "../../../services/genres";
 import { getAuthors } from "../../../services/author";
@@ -111,7 +111,7 @@ export default function Books() {
                 className="px-4 py-5 pl-9 xl:pl-11"
               >
                 <h5 className="font-medium text-black dark:text-white">{book.title}</h5>
-                <p className="text-sm">{book.price}</p>
+                <p className="text-sm">{currencyFormat(book.price)}</p>
               </td>
               <td className="px-4 py-5">
                 <p className="text-black dark:text-white">{book.description}</p>
